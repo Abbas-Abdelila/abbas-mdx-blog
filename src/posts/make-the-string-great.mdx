@@ -1,0 +1,142 @@
+---
+title: 'Make The String Great'
+date: '2022-01-01'
+description: 'Leetcode make the string great solution in python using stack and iterative method.'
+image: 'https://images.unsplash.com/photo-1631451095765-2c91616fc9e6?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80'
+---
+
+# 1544. Make The String Great
+
+
+
+### Question
+
+**[1544. Make The String Great](https://leetcode.com/problems/make-the-string-great/)**
+
+<aside>
+💡 Given a string `s` of lower and upper case English letters.
+
+A good string is a string which doesn't have **two adjacent characters** 
+
+`s[i]` and `s[i + 1]` where:
+
+- `0 <= i <= s.length - 2`
+- `s[i]` is a lower-case letter and `s[i + 1]` is the same letter but in upper-case or **vice-versa**.
+
+To make the string good, you can choose **two adjacent** characters that make the string bad and remove them. You can keep doing this until the string becomes good.
+
+Return *the string* after making it good. The answer is guaranteed to be unique under the given constraints.
+
+**Notice** that an empty string is also good.
+
+**Constraints:**
+
+- `1 <= s.length <= 100`
+- `s` contains only lower and upper case English letters.
+</aside>
+
+### Understanding the Question
+
+<aside>
+💡 What the question is asking for in short is 
+For a string to be “Good String”, 
+       🔑 two consecutive characters in a string cannot be 
+             the same character in small and then capital letter or
+             capital and then small. 
+
+       “ascCbmi”   ❌
+       “kochEela”  ❌
+       “abceilao”   ✅
+
+</aside>
+
+---
+
+### 1. Iterative Solution.
+
+<aside>
+💡 From ASCII code of letters of the alphabet
+a → 97 and a → 65, ⇒    97-65 = 32
+B → 66 and b → 98, ⇒    66-98 = -32
+****f → 102 and F → 70, ⇒   102-70 = 32
+C → 67 and c → 99, ⇒    67-99 = -32
+⇒ we can generalize that the difference of ascii number of two adjacent same letters is absolute value of 32. 
+                                 small → capital = 32
+                                 capital → small = -32
+
+                                 difference  =  |32|
+
+</aside>
+
+<aside>
+🔑 In light of the difference being constant we can tell when to remove two characters from the string. Each time we remove bad pair we go back to the start and check for another pairs to delete till we reach the end of the string without encountering any bad pair.
+
+</aside>
+
+ 
+
+---
+
+### Python Implementation Iterative Method
+
+```python
+class Solution:
+    def makeGood(self, s: str) -> str:
+        i = 0
+        while i < len(s) - 1:
+            if abs(ord(s[i])-ord(s[i+1])) == 32:# we have valid pair to be deleted
+                s = s[:i] + s[i+2:]
+                i = 0 # back to start as new pair may araise after modifying s.
+            else:
+                i += 1
+        
+        return s
+```
+
+<aside>
+🔑 One thing to remember for strings in python when slicing them if the index i is out of range it will return “” empty string NOT ERROR.
+So i+2 being out of range has no problem
+
+</aside>
+
+```python
+string = "checkout Rophnan"
+string = string[9:] + string[1000:]
+print(string) // Rophnan
+```
+
+---
+
+### 2. Solution using Stack 📚
+
+<aside>
+💡 The way we are going to solve this using is by using the stack to keep the characters of the string as we iterate it. 
+→ The element on top of the stack will be the previous character. We check if the      difference between the previous character from the stack and current character from the iteration is 32 (then it is valid pair to be deleted).
+
+⇒ If that is the case, we pop the last element from the stack, else we append it to the stack and move on to the next iteration.
+
+⇒ At the end what will remain in the stack will not have consecutive same small and capital letter or the other way as we have blocked that possibility of that happening by popping when we see a potential of such order happening in the stack.
+
+</aside>
+
+### Python implementation of stack solution
+
+```python
+class Solution:
+    def makeGood(self, s: str) -> str:
+        stack = []
+        
+        for curr_ch in s:
+            if stack and abs(ord(curr_ch)-ord(stack[-1])) == 32:
+                stack.pop()
+            else:
+                stack.append(curr_ch)
+        
+        return "".join(stack)
+```
+
+   
+
+---
+
+That’s all, thanks for reading!

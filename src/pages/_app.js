@@ -8,7 +8,7 @@ export default function App({ Component, pageProps }) {
   return (
     <>
       <Head>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" charSet="UTF-8" />
         <title>Next blog with MDX</title>
       </Head>
 

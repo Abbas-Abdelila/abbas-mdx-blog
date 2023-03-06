@@ -3,10 +3,8 @@ import fs from "fs";
 import path from "path";
 import matter from "gray-matter";
 import BlogCard from "@/components/BlogCard";
-import { Scrollbar } from "react-scrollbars-custom";
 
 export default function Home({ posts }) {
-
   return (
     <>
       <Head>
@@ -15,20 +13,16 @@ export default function Home({ posts }) {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      
-      <div className="w-4/5 flex justify-center items-center mx-auto mt-16">
 
+      <div className="w-4/5 flex justify-center items-center mx-auto mt-16">
         <div className="w-4/5 grid sm:grid-cols-2 md:grid-cols-3 2xl:grid-cols-4 gap-6">
           {posts.map((post, index) => (
-            <BlogCard key={index} post={post} />))}
-
-          
+            <BlogCard key={index} post={post} />
+          ))}
         </div>
         <div className="w-1/5 "></div>
       </div>
-    
     </>
-    
   );
 }
 
